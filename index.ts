@@ -243,6 +243,11 @@ fastify.get("/", { beforeHandler: fillinUser }, async (request, reply) => {
   });
 });
 
+fastify.get("/getevents", async (_request, reply) => {
+  const events = (await getEvents());
+  reply.send(events);
+});
+
 fastify.get("/initialize", async (_request, reply) => {
   await execFile("../../db/init.sh");
 
