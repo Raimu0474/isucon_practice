@@ -685,6 +685,40 @@ fastify.get('/getevents2', async (_request, reply) => {
   reply.send(events);
 });
 
+fastify.get('/getevents3', async (_request, reply) => {
+  const conn = await getConnection();
+
+  let events = [] as Array<Event>;
+
+  await conn.beginTransaction();
+  try {
+    const rows = await conn.query("SELECT * FROM events as e inner join sheets as s on e.event_id=s.event_id ORDER BY id ASC, `rank`, num");
+
+    // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
+    events = rows.map((row) => row);
+
+    // for (const eventId of eventIds) {
+    //   const event = (await getEvent(eventId))!;
+
+    //   for (const rank of Object.keys(event.sheets)) {
+    //     delete event.sheets[rank].detail;
+    //   }
+
+    //   events.push(event);
+    // }
+
+    await conn.commit();
+  }catch (e) {
+    console.error(new TraceError("Failed to getEvents()", e));
+    await conn.rollback();
+  }
+  reply.send(events);
+
+  // "SELECT * FROM sheets ORDER BY `rank`, num"
+    // let events: ReadonlyArray<any> = [];
+  // events = await getEvents((_event) => true);
+});
+
 
 async function renderReportCsv<T>(reply: FastifyReply<T>, reports: ReadonlyArray<any>) {
   const sortedReports = [...reports].sort((a, b) => {
