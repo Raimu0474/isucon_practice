@@ -700,9 +700,12 @@ fastify.get('/getevents3', async (_request, reply) => {
         where r.canceled_at is null
         ORDER BY e.id ASC`
     );
-
+    events = await conn.query(`select id, title from events`)
     // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
-    events = rows;
+    // events = rows;
+    rows.forEach(e=>{
+      
+    })
 
     // for (const eventId of eventIds) {
     //   const event = (await getEvent(eventId))!;
