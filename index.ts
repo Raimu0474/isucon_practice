@@ -692,7 +692,14 @@ fastify.get('/getevents3', async (_request, reply) => {
 
   await conn.beginTransaction();
   try {
-    const rows = await conn.query("SELECT * FROM events as e inner join reservations as r on e.id=r.event_id inner join sheets as s on r.sheet_id=s.id ORDER BY e.id ASC");
+    const rows = await conn.query(`
+      SELECT * 
+      FROM events as e
+        inner join reservations as r on e.id=r.event_id
+        inner join sheets as s on r.sheet_id=s.id
+        where r.canceled_at is null
+        ORDER BY e.id ASC`
+    );
 
     // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
     events = rows;
