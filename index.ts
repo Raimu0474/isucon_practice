@@ -701,7 +701,8 @@ fastify.get('/getevents3', async (_request, reply) => {
         ORDER BY e.id ASC`
     );
     let eventRows = await conn.query(`select id, title from events`)
-    for(let event of eventRows){
+    for(const eventRow of eventRows){
+      const event = { ...eventRow };
       events.push(event)
     }
     // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
