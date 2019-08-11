@@ -703,9 +703,9 @@ fastify.get('/getevents3', async (_request, reply) => {
     events = await conn.query(`select id, title from events`)
     // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
     // events = rows;
-    rows.forEach(e=>{
+    // rows.forEach(e=>{
       
-    })
+    // })
 
     // for (const eventId of eventIds) {
     //   const event = (await getEvent(eventId))!;
