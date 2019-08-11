@@ -695,7 +695,7 @@ fastify.get('/getevents3', async (_request, reply) => {
     const rows = await conn.query("SELECT * FROM events as e inner join sheets as s on e.event_id=s.event_id ORDER BY id ASC, `rank`, num");
 
     // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
-    events = rows.map((row) => row);
+    events = rows;
 
     // for (const eventId of eventIds) {
     //   const event = (await getEvent(eventId))!;
