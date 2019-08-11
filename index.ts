@@ -700,11 +700,12 @@ fastify.get('/getevents3', async (_request, reply) => {
         where r.canceled_at is null
         ORDER BY e.id ASC`
     );
-    let eventRows = await conn.query(`select id, title from events`)
-    for(const eventRow of eventRows){
-      const event = { ...eventRow };
-      events.push(event)
-    }
+    let events = await conn.query(`select id, title from events`)
+    // for(const eventRow of eventRows){
+    //   const event = { ...eventRow };
+    //   events.push(event)
+    // }
+    events.pop();
     // const eventIds = rows.filter((row) => where(row)).map((row) => row.id);
     // events = rows;
     // rows.forEach(e=>{
