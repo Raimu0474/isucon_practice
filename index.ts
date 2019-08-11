@@ -672,6 +672,20 @@ fastify.get("/admin/api/reports/sales", { beforeHandler: adminLoginRequired }, a
   renderReportCsv(reply, reports);
 });
 
+
+
+
+fastify.get("/getevents", async (_request, reply) => {
+  const events = (await getEvents());
+  reply.send(events);
+});
+fastify.get('/getevents2', async (_request, reply) => {
+  let events: ReadonlyArray<any> = [];
+  events = await getEvents((_event) => true);
+  reply.send(events);
+});
+
+
 async function renderReportCsv<T>(reply: FastifyReply<T>, reports: ReadonlyArray<any>) {
   const sortedReports = [...reports].sort((a, b) => {
     return a.sold_at.localeCompare(b.sold_at);
@@ -706,20 +720,4 @@ fastify.listen(8080, (err, address) => {
     throw new TraceError("Failed to listening", err);
   }
   fastify.log.info(`server listening on ${address}`);
-});
-
-
-
-
-
-
-fastify.get("/getevents", async (_request, reply) => {
-  const events = (await getEvents());
-  reply.send(events);
-});
-fastify.get('/getevents2', async (_request, reply) => {
-  let events: ReadonlyArray<any> = [];
-  events = await getEvents((_event) => true);
-  reply.send(events);
-  
 });
