@@ -711,13 +711,15 @@ fastify.listen(8080, (err, address) => {
 
 
 
+
+
 fastify.get("/getevents", async (_request, reply) => {
   const events = (await getEvents());
   reply.send(events);
 });
-fastify.get('/getevents2'){ async (_request, reply) => {
+fastify.get('/getevents2', async (_request, reply) => {
   let events: ReadonlyArray<any> = [];
-  const events = await getEvents((_event) => true)
+  events = await getEvents((_event) => true);
   reply.send(events);
   
-}
+});
